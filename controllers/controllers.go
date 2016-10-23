@@ -39,3 +39,17 @@ func Store(w http.ResponseWriter, r *http.Request) {
 		log.Println("それはおかしい")
 	}
 }
+
+// Update : データ更新
+func Update(w http.ResponseWriter, r *http.Request) {
+	log.Println("Update!!!", r.Method)
+	if r.Method == PostMethod {
+		formValue := r.PostFormValue // POSTデータ
+		if err := biz.Update(formValue); err != nil {
+			log.Println("登録エラー: ", err)
+		}
+		//		db.Insert(formValue)
+	} else {
+		log.Println("それはおかしい")
+	}
+}
