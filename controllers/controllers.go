@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"html/template"
 	"log"
 	"net/http"
+	"os"
 
 	"MaterialManager/controllers/biz"
 )
@@ -16,7 +18,6 @@ const (
 // Index : トップページ
 func Index(w http.ResponseWriter, r *http.Request) {
 	if r.Method == GetMethod {
-		// トップページ的な何か
 	}
 }
 
@@ -24,6 +25,19 @@ func Index(w http.ResponseWriter, r *http.Request) {
 func Create(w http.ResponseWriter, r *http.Request) {
 	if r.Method == GetMethod {
 		// 入力画面的な何か
+		docRoot, _ := os.Getwd()
+		data := map[string]string{
+			"root": docRoot,
+		}
+
+		// トップページ的な何か
+		tmpl := template.Must(template.ParseFiles("/Users/sishihara/go/src/MaterialManager/public/html/index.tpl"))
+		w.Header().Set("Content-Type", "text/html")
+
+		if err := tmpl.Execute(w, data); err != nil {
+			log.Println(err)
+		}
+
 	}
 }
 

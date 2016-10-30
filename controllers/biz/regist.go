@@ -11,6 +11,7 @@ import (
 // 登録データ一覧
 const (
 	ID    = "dataID"               // データID
+	Level = "level"                // 提督レベル
 	Fuel  = "fuel"                 // 燃料
 	Ammun = "ammunition"           // 弾薬
 	Steel = "steel"                // 鋼材
@@ -62,6 +63,11 @@ func Regist(data func(string) string) error {
 	log.Println(insertData)
 
 	date := data(Date)
+
+	// DBインサート可能かを判定
+	if err = db.CountColumn(date); err != nil {
+		return err
+	}
 
 	// DBインサート
 	if err = db.Insert(insertData, date); err != nil {
@@ -155,11 +161,12 @@ func configureMaterials(data func(string) string) (db.Materials, error) {
 
 // configureRecord : 戦果情報の設定
 func configureRecord(data func(string) string) (db.Record, error) {
-	record, err := checkForm(data, WinSo, DefSo, Expe, SuEx, WinEx, DefEx, Veter, Rank)
+	record, err := checkForm(data, Level, WinSo, DefSo, Expe, SuEx, WinEx, DefEx, Veter, Rank)
 	if err != nil {
 		return db.Record{}, err
 	}
 	dbRec := db.Record{
+		Level: record[Level],
 		WinSo: record[WinSo],
 		DefSo: record[DefSo],
 		Expe:  record[Expe],

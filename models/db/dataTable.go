@@ -25,6 +25,7 @@ type Materials struct {
 
 // Record : 戦績
 type Record struct {
+	Level int // 提督レベル
 	WinSo int // 出撃の勝数
 	DefSo int // 出撃の敗数
 	Expe  int // 遠征の回数
