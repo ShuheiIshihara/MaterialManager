@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>艦これ資材データ一覧</title>
+	<link rel="stylesheet" type="text/css" href="/assets/vendor/css/bootstrap-cerulear.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/kancolle-style.css">
+	<script type="text/javascript" src="/assets/vendor/js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="/assets/js/kancolle-tool.js"></script>
+</head>
+
+<body class="kancolle-main">
+	<p class="kancolle-title">月の資材状況</p>
+	<a href="./material/create">データ入力</a>
+
+	<div id="kancolle-table">
+		<table class="table table-striped table-hover">
+			<tr>
+				<th rowspan="2">日付</th>
+				<th rowspan="2">レベル</th>
+				<th colspan="4">資源</th>
+				<th colspan="4">資材</th>
+				<th colspan="2">出撃</th>
+				<th colspan="2">遠征</th>
+				<th colspan="2">演習</th>
+				<th colspan="2">戦果</th>
+				<th rowspan="2" id="kancolle-dataID">ID</th>
+			</tr>
+			<tr>
+				<th>燃料</th>
+				<th>弾薬</th>
+				<th>鋼材</th>
+				<th>ボーキ</th>
+				<th>バケツ</th>
+				<th>開発資材</th>
+				<th>バーナー</th>
+				<th>ネジ</th>
+				<th>勝数</th>
+				<th>敗数</th>
+				<th>回数</th>
+				<th>成功数</th>
+				<th>勝数</th>
+				<th>敗数</th>
+				<th>順位</th>
+				<th>戦果</th>
+			</tr>
+			{{ range .Resources }}
+			<tr id="kancolle-{{ .DataID }}">
+				<td id="kancolle-date">{{ .Date | day }}</td>
+				<td>{{ .Level }}</td>
+				<td>{{ .Fuel }}</td>
+				<td>{{ .Ammun }}</td>
+				<td>{{ .Steel }}</td>
+				<td>{{ .Baux }}</td>
+				<td>{{ .Buck }}</td>
+				<td>{{ .Dmat }}</td>
+				<td>{{ .Bann }}</td>
+				<td>{{ .Screw }}</td>
+				<td>{{ .WinSo }}</td>
+				<td>{{ .DefSo }}</td>
+				<td>{{ .Expe }}</td>
+				<td>{{ .SuEx }}</td>
+				<td>{{ .WinEx }}</td>
+				<td>{{ .DefEx }}</td>
+				<td>{{ .Rank }}</td>
+				<td>{{ .Veter }}</td>
+				<td id="kancolle-dataID">{{ .DataID }}</td>
+			</tr>
+			{{ end }}
+		</table>
+	</div>
+
+</body>
+
+</html>

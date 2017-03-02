@@ -8,7 +8,7 @@ import (
 )
 
 // Update : 指定されたdataIdのカラムを更新する
-func Update(dataID int, data MaterialList, date string) error {
+func Update(dataID int, data Resources, date string) error {
 	log.Println("Update Function")
 
 	db, err := sql.Open("mysql", "kankore:kongo@/material")
@@ -51,23 +51,23 @@ func Update(dataID int, data MaterialList, date string) error {
 		`
 	if _, err = tx.Exec(
 		updateQuery,
-		data.Record.Level,
-		data.Resources.Fuel,
-		data.Resources.Ammun,
-		data.Resources.Steel,
-		data.Resources.Baux,
-		data.Materials.Buck,
-		data.Materials.Dmat,
-		data.Materials.Screw,
-		data.Materials.Bann,
-		data.Record.WinSo,
-		data.Record.DefSo,
-		data.Record.Expe,
-		data.Record.SuEx,
-		data.Record.WinEx,
-		data.Record.DefEx,
-		data.Record.Veter,
-		data.Record.Rank,
+		data.Level,
+		data.Fuel,
+		data.Ammun,
+		data.Steel,
+		data.Baux,
+		data.Buck,
+		data.Dmat,
+		data.Screw,
+		data.Bann,
+		data.WinSo,
+		data.DefSo,
+		data.Expe,
+		data.SuEx,
+		data.WinEx,
+		data.DefEx,
+		data.Veter,
+		data.Rank,
 		dataID); err != nil {
 		log.Println("資源登録エラー")
 		tx.Rollback()
@@ -90,10 +90,10 @@ func Update(dataID int, data MaterialList, date string) error {
 	// 	`
 	// if _, err = tx.Exec(
 	// 	updateQuery,
-	// 	data.Materials.Buck,
-	// 	data.Materials.Dmat,
-	// 	data.Materials.Screw,
-	// 	data.Materials.Bann,
+	// 	data.Buck,
+	// 	data.Dmat,
+	// 	data.Screw,
+	// 	data.Bann,
 	// 	date,
 	// 	dataID); err != nil {
 	// 	log.Println("開発資材登録エラー")
@@ -120,14 +120,14 @@ func Update(dataID int, data MaterialList, date string) error {
 	// `
 	// if _, err = tx.Exec(
 	// 	updateQuery,
-	// 	data.Record.WinSo,
-	// 	data.Record.DefSo,
-	// 	data.Record.Expe,
-	// 	data.Record.SuEx,
-	// 	data.Record.WinEx,
-	// 	data.Record.DefEx,
-	// 	data.Record.Veter,
-	// 	data.Record.Rank,
+	// 	data.WinSo,
+	// 	data.DefSo,
+	// 	data.Expe,
+	// 	data.SuEx,
+	// 	data.WinEx,
+	// 	data.DefEx,
+	// 	data.Veter,
+	// 	data.Rank,
 	// 	date,
 	// 	dataID); err != nil {
 	// 	log.Println("戦績登録エラー")

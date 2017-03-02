@@ -41,27 +41,6 @@ func Regist(data func(string) string) error {
 	}
 	log.Println(dbRes)
 
-	// 開発資材情報の設定
-	dbMat, err := configureMaterials(data)
-	if err != nil {
-		return err
-	}
-	log.Println(dbMat)
-
-	// 戦果情報の設定
-	dbRec, err := configureRecord(data)
-	if err != nil {
-		return err
-	}
-	log.Println(dbRec)
-
-	insertData := db.MaterialList{
-		Resources: dbRes,
-		Materials: dbMat,
-		Record:    dbRec,
-	}
-	log.Println(insertData)
-
 	date := data(Date)
 
 	// DBインサート可能かを判定
@@ -70,7 +49,7 @@ func Regist(data func(string) string) error {
 	}
 
 	// DBインサート
-	if err = db.Insert(insertData, date); err != nil {
+	if err = db.Insert(dbRes, date); err != nil {
 		return err
 	}
 
@@ -89,27 +68,6 @@ func Update(data func(string) string) error {
 	}
 	log.Println(dbRes)
 
-	// 開発資材情報の設定
-	dbMat, err := configureMaterials(data)
-	if err != nil {
-		return err
-	}
-	log.Println(dbMat)
-
-	// 戦果情報の設定
-	dbRec, err := configureRecord(data)
-	if err != nil {
-		return err
-	}
-	log.Println(dbRec)
-
-	updateData := db.MaterialList{
-		Resources: dbRes,
-		Materials: dbMat,
-		Record:    dbRec,
-	}
-	log.Println(updateData)
-
 	dataID, err := strconv.Atoi(data(ID))
 	if err != nil {
 		err := fmt.Errorf("Error: %s", "更新IDがありません")
@@ -121,7 +79,7 @@ func Update(data func(string) string) error {
 	date := data(Date)
 
 	// DBインサート
-	if err = db.Update(dataID, updateData, date); err != nil {
+	if err = db.Update(dataID, dbRes, date); err != nil {
 		log.Println("更新エラー", err)
 		return err
 	}
@@ -131,7 +89,7 @@ func Update(data func(string) string) error {
 
 // configureResources : 資材情報の設定
 func configureResources(data func(string) string) (db.Resources, error) {
-	resources, err := checkForm(data, Fuel, Ammun, Steel, Baux)
+	resources, err := checkForm(data, Fuel, Ammun, Steel, Baux, Buck, DMat, Bann, Screw, Level, WinSo, DefSo, Expe, SuEx, WinEx, DefEx, Veter, Rank)
 	if err != nil {
 		return db.Resources{}, err
 	}
@@ -140,43 +98,21 @@ func configureResources(data func(string) string) (db.Resources, error) {
 		Ammun: resources[Ammun],
 		Steel: resources[Steel],
 		Baux:  resources[Baux],
+		Buck:  resources[Buck],
+		Dmat:  resources[DMat],
+		Screw: resources[Screw],
+		Bann:  resources[Bann],
+		Level: resources[Level],
+		WinSo: resources[WinSo],
+		DefSo: resources[DefSo],
+		Expe:  resources[Expe],
+		SuEx:  resources[SuEx],
+		WinEx: resources[WinEx],
+		DefEx: resources[DefEx],
+		Veter: resources[Veter],
+		Rank:  resources[Rank],
 	}
 	return dbRes, nil
-}
-
-/// configureMaterials : 開発資材情報の設定
-func configureMaterials(data func(string) string) (db.Materials, error) {
-	materials, err := checkForm(data, Buck, DMat, Bann, Screw)
-	if err != nil {
-		return db.Materials{}, err
-	}
-	dbMat := db.Materials{
-		Buck:  materials[Buck],
-		Dmat:  materials[DMat],
-		Screw: materials[Screw],
-		Bann:  materials[Bann],
-	}
-	return dbMat, nil
-}
-
-// configureRecord : 戦果情報の設定
-func configureRecord(data func(string) string) (db.Record, error) {
-	record, err := checkForm(data, Level, WinSo, DefSo, Expe, SuEx, WinEx, DefEx, Veter, Rank)
-	if err != nil {
-		return db.Record{}, err
-	}
-	dbRec := db.Record{
-		Level: record[Level],
-		WinSo: record[WinSo],
-		DefSo: record[DefSo],
-		Expe:  record[Expe],
-		SuEx:  record[SuEx],
-		WinEx: record[WinEx],
-		DefEx: record[DefEx],
-		Veter: record[Veter],
-		Rank:  record[Rank],
-	}
-	return dbRec, nil
 }
 
 // checkForm:入力項目を走査し、全て存在すれば結果を返す。1つでも不足していればerrを返す。

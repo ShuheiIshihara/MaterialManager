@@ -1,4 +1,11 @@
 $(function(){
+    $('.kancolle-main').ready(function(){
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        $('.kancolle-title').text(year + ' 年 ' + month + ' 月の資材状況');
+    });
+
     $('#kancolle-btnRegist').on('click', function(){
 
         // 資源
@@ -25,7 +32,7 @@ $(function(){
             console.log(index, val);
             material[index] = val.api_value;
         });
-        console.log(material);
+        // console.log(material);
         
         // Level
         var level = jsonData.api_data.api_basic.api_level;
@@ -37,21 +44,21 @@ $(function(){
         // 出撃の敗北数
         var stLose = jsonData.api_data.api_basic.api_st_lose;
 
-        console.log(stWin, stLose);
+        // console.log(stWin, stLose);
 
         // 遠征の回数
         var msCnt = jsonData.api_data.api_basic.api_ms_count;
         // 遠征の成功数
         var msSucc = jsonData.api_data.api_basic.api_ms_success;
 
-        console.log(msCnt, msSucc);
+        // console.log(msCnt, msSucc);
 
         // 演習の勝利数
         var ptWin = jsonData.api_data.api_basic.api_pt_win;
         // 演習の敗北数
         var ptLose = jsonData.api_data.api_basic.api_pt_lose;
 
-        console.log(ptWin, ptLose);
+        // console.log(ptWin, ptLose);
 
         // DB登録依頼
         insert(level, material, stWin, stLose, msCnt, msSucc, ptWin, ptLose, senka, ranking, date);
@@ -108,7 +115,12 @@ function insert(level, material, stWin, stLose, msCnt, msSucc, ptWin, ptLose, se
         }
     }).done(function(response, textStatus, jqXHR) {
        // 成功時処理
-        //レスポンスデータはパースされた上でresponseに渡される
+        console.log(response);
+        if(response.result != 0) {
+            alert(response.reason);
+        } else {
+            alert("登録成功");
+        }
      }).fail(function(jqXHR, textStatus, errorThrown ) {
         // 失敗時処理
      }).always(function(data_or_jqXHR, textStatus, jqXHR_or_errorThrown) {

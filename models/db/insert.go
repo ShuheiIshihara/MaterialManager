@@ -8,7 +8,7 @@ import (
 )
 
 // Insert : 新規データ登録
-func Insert(data MaterialList, date string) error {
+func Insert(data Resources, date string) error {
 	log.Println("Insert Function")
 
 	log.Println(data)
@@ -53,23 +53,23 @@ func Insert(data MaterialList, date string) error {
 		`
 	if _, err = tx.Exec(
 		insertQuery,
-		data.Record.Level,
-		data.Resources.Fuel,
-		data.Resources.Ammun,
-		data.Resources.Steel,
-		data.Resources.Baux,
-		data.Materials.Buck,
-		data.Materials.Dmat,
-		data.Materials.Screw,
-		data.Materials.Bann,
-		data.Record.WinSo,
-		data.Record.DefSo,
-		data.Record.Expe,
-		data.Record.SuEx,
-		data.Record.WinEx,
-		data.Record.DefEx,
-		data.Record.Veter,
-		data.Record.Rank,
+		data.Level,
+		data.Fuel,
+		data.Ammun,
+		data.Steel,
+		data.Baux,
+		data.Buck,
+		data.Dmat,
+		data.Screw,
+		data.Bann,
+		data.WinSo,
+		data.DefSo,
+		data.Expe,
+		data.SuEx,
+		data.WinEx,
+		data.DefEx,
+		data.Veter,
+		data.Rank,
 		date); err != nil {
 		log.Println("資源登録エラー")
 		tx.Rollback()
