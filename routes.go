@@ -15,6 +15,8 @@ func Routes() {
 	http.HandleFunc("/material/store", controllers.Store)   // 新規登録
 	http.HandleFunc("/material/update", controllers.Update)
 
+	http.HandleFunc("/api/material", controllers.GetMaterial)
+
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalln("接続エラー: ", err)
 	}

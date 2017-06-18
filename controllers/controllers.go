@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"encoding/json"
 
 	"MaterialManager/controllers/biz"
 )
@@ -91,5 +92,23 @@ func Update(w http.ResponseWriter, r *http.Request) {
 		//		db.Insert(formValue)
 	} else {
 		log.Println("それはおかしい")
+	}
+}
+
+func GetMaterial(w http.ResponseWriter, r *http.Request) {
+	if r.Method == GetMethod {
+		layout := "2006-01-"
+		currentMonth := time.Now().Format(layout)
+
+		data, _ := biz.Select(currentMonth + "01")
+		jsonByte, err := json.Marshal(data)
+		if err != nil{
+			log.Println("json失敗")
+			return
+		}
+
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonByte)
 	}
 }
