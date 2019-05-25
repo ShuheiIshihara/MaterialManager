@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 	"encoding/json"
+	"bytes"
 
 	"MaterialManager/controllers/biz"
 )
@@ -110,5 +111,31 @@ func GetMaterial(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jsonByte)
+	}
+}
+
+// Store : 新規データ作成
+func StoreMaterial(w http.ResponseWriter, r *http.Request) {
+	if r.Method == PostMethod {
+		// formValue := r.PostFormValue // POSTデータ
+
+		bufbody := new(bytes.Buffer)
+		bufbody.ReadFrom(r.Body)
+		body := bufbody.String()
+		log.Println(body)
+
+
+
+
+		var err error
+		if err = biz.RegisterJson(body); err != nil {
+			log.Println("登録エラー: ", err)
+		}
+		// ヘッダにjsonとアクセスコントロールの設定を追加
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Write(biz.GenerateInsertData(err))
+	} else {
+		log.Println("それはおかしい")
 	}
 }

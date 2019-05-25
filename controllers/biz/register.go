@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"encoding/json"
+	// "bytes"
 
 	"MaterialManager/models/db"
 )
@@ -55,6 +57,27 @@ func Regist(data func(string) string) error {
 
 	// 返り値はエラー型
 	// 登録処理に問題がなければnilを返す
+	return nil
+}
+
+func RegisterJson(jsonStr string) error {
+	var dbRes db.Resources
+	var err error
+	if err = json.Unmarshal([]byte(jsonStr), &dbRes); err != nil {
+		return err
+	}
+	log.Println(dbRes)
+
+	// DBインサート可能かを判定
+	if err = db.CountColumn(dbRes.Date); err != nil {
+		return err
+	}
+
+	// DBインサート
+	if err = db.Insert(dbRes, dbRes.Date); err != nil {
+		return err
+	}
+
 	return nil
 }
 
